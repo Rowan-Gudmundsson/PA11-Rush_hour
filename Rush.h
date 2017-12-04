@@ -3,17 +3,23 @@
 
 using namespace std;
 
+const int BOARD_SIZE = 6;
 
 class Board{
 public:
 	Board();
 	~Board();
 
+	//bool operator<(const Board &other) const{
+	//	return boards < other.boards;
+	//}
 	void clear();
 	void insert(int cars);
 	int solveIt(int cars);
+	bool forward(int carNumber);
+	bool backward(int carNumber);
+	bool isMove(int row, int col);
 	bool isSolved() const;
-	void showStructure() const;
 
 private:
 	class Vehicle{
@@ -26,13 +32,6 @@ private:
 	};
 	Vehicle *boards;
 	int totalCars;
-	/*
-	bool moveForward(Board &board, Vehicle test);
-	bool moveBackward(Board &board, Vehicle test);
-	void solveIt(Board &board,int &cap, int moves, bool &solved);
-	bool win(Board board);
-	Vehicle array[6][6];
-	*/
 };
 
 #endif
