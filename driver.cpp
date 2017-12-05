@@ -33,12 +33,12 @@ according to the best of our knowledge.
 #include <queue>
 #include <map>
 #include <ctime>
-#include "rush.h"
-#include "timer.h"
+#include "Rush.h"
+#include "Timer.h"
 using namespace std;
 
 //  Global Constants  //////////////////////////////////////////////////////////
-const int MAX_CARS = 18; /**< The maximum number of cars allowed for the game */
+//const int MAX_CARS = 18; /**< The maximum number of cars allowed for the game */
 
 //  Function Prototypes  ///////////////////////////////////////////////////////
 int solveIt(Board &gameBoard);
@@ -66,7 +66,7 @@ int main()
       gameBoard.loadCars(numCars);
       t.start();
       // solve
-      numMoves = solveIt(gameBoard);
+      numMoves = gameBoard.solveIt();
       t.stop();
       totalT+= t.getElapsedTime();
       // print results
@@ -74,92 +74,8 @@ int main()
       // get input number of cars for next scenario
       cin >> numCars;
    }
-   cout << totalT;
+   cout << totalT << std::endl;
 
    // end program
    return 0;
-}
-
-//  Supporting Function Implementation  ////////////////////////////////////////
-
-/**
- * This function will find the solution to the input game board, using a
- * breadth-first search with pruning (branch and bound).
- *
- * This function contains a loop that will check if a solution has been found,
- * and if so, the number of moves required to solve is returned. If a solution
- * was not found, the function attempts to move each car (branch) and see if a
- * solution was found resulting from the latest move. The function will not
- * continue searching for solutions on a game board that has already been
- * searched (bound).
- *
- * @param gameBoard   the game board to solve
- * @return This function will return the least number of moves required to solve
- * the game. If a solution is not found, -1 is returned.
- * @exception None
- *
- */
-int solveIt(Board &gameBoard)
-{
-   // initialize function
-   // initialize variables
-   int numCars= gameBoard.getNumCars();
-   int numMoves= 0;
-
-   // initialize todo queue, and history map
-   queue<Board> todo;
-   map<Board,int> history;
-
-   // insert first board into todo, and history with numMoves
-   todo.push(gameBoard);
-   history.insert(pair<Board,int>(gameBoard, numMoves));
-
-   // loop while todo is not empty (solution still possible)
-   while(!todo.empty())
-   {
-      // load board from todo
-      gameBoard= todo.front();
-      todo.pop();
-      // get number of moves for loaded board (second of pair)
-      numMoves= history.find(gameBoard)->second;
-      // if board is solved
-      if(gameBoard.solved())
-      {
-         // return number of moves
-         return numMoves;
-      }
-      // loop for numCars
-      for(int j= 0; j < numCars; j++)
-      {
-         // if car at index can move forward
-         if(gameBoard.moveForward(j))
-         {
-            // if board is not in history (bound)
-            if(history.count(gameBoard) == 0)
-            {
-               // insert board into todo, and history with numMoves + 1
-               todo.push(gameBoard);
-               history.insert(pair<Board,int>(gameBoard, numMoves + 1));
-            }
-            // move car back
-            gameBoard.moveBack(j);
-         }
-         // if car at index can move back
-         if(gameBoard.moveBack(j))
-         {
-            // if board is not in history (bound)
-            // "history.find( gameBoard ) == history.end" not working
-            if(history.count(gameBoard) == 0)
-            {
-               // insert board into todo, and history with numMoves + 1
-               todo.push(gameBoard);
-               history.insert(pair<Board,int>(gameBoard, numMoves + 1));
-            }
-            // move car forward
-            gameBoard.moveForward(j);
-         }
-      }
-   }
-   // return -1 for not solved
-   return -1;
 }
