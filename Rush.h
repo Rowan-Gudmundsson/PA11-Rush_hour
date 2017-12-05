@@ -9,42 +9,52 @@
 #define RUSH_H
 
 #include <iostream>
-using namespace std;
+#include <map>
+#include <queue>
+#include <string>
 
-//  Car Class  /////////////////////////////////////////////////////////////////
+const int BOARD_SIZE = 6;
+const int MOVE_CAP = 10;
+const int MAX_CARS = 18;
 
-class Car
-{
-   public:
-      bool operator<(const Car& other) const;
-      bool operator!=(const Car& other) const;
-      friend istream& operator>>(istream &is, Car &inCar);
-      int length;
-      char orientation;
-      int row;
-      int col;
+#define VH_BIT 1 << 7
+
+class Board{
+public:
+	Board(int defaultMax = MAX_CARS);
+	Board(const Board&);
+	~Board();
+
+	Board& operator = (const Board&);
+
+	void clear();
+	void loadCars(int);
+	int solveIt();
+	bool moveForward(int);
+	bool moveBack(int);
+	bool isMove(int row, int col);
+	bool solved() const;
+	std::string toString() const;
+
+	friend std::ostream& operator << (std::ostream&, const Board&);
+	
+private:
+
+	struct Vehicle {
+
+		int row;
+		int col;
+		char direction;
+		int length;
+		char name;
+	};
+
+	static std::map<std::string, int> history;
+
+	std::queue<Board> todo;
+
+	Vehicle* boards;
+	int totalCars;
 };
 
-//  Board Class  ///////////////////////////////////////////////////////////////
-class Board
-{
-   public:
-      Board();
-      Board(const Board &other);
-      Board& operator=(const Board& other);
-      ~Board();
-
-      void loadCars(int inNumCars);
-      int getNumCars() const;
-      void clear();
-      bool moveForward(int index);
-      bool moveBack(int index);
-      bool isClearSpace(int row, int col) const;
-      bool solved() const;
-      bool operator<(const Board& other) const;
-
-   private:
-      Car *cars;
-      int numCars;
-};
-#endif
+#endif //RUSH_H

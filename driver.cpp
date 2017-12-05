@@ -33,12 +33,12 @@ according to the best of our knowledge.
 #include <queue>
 #include <map>
 #include <ctime>
-#include "rush.h"
-#include "timer.h"
+#include "Rush.h"
+#include "Timer.h"
 using namespace std;
 
 //  Global Constants  //////////////////////////////////////////////////////////
-const int MAX_CARS = 18; /**< The maximum number of cars allowed for the game */
+//const int MAX_CARS = 18; /**< The maximum number of cars allowed for the game */
 
 //  Function Prototypes  ///////////////////////////////////////////////////////
 int solveIt(Board &gameBoard);
@@ -66,7 +66,7 @@ int main()
       gameBoard.loadCars(numCars);
       t.start();
       // solve
-      numMoves = solveIt(gameBoard);
+      numMoves = gameBoard.solveIt();
       t.stop();
       totalT+= t.getElapsedTime();
       // print results
@@ -74,7 +74,7 @@ int main()
       // get input number of cars for next scenario
       cin >> numCars;
    }
-   cout << totalT;
+   cout << totalT << std::endl;
 
    // end program
    return 0;
