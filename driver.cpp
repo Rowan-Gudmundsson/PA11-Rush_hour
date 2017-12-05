@@ -46,15 +46,12 @@ int solveIt(Board &gameBoard);
 //  Main Function  /////////////////////////////////////////////////////////////
 int main()
 {
-   Timer t;
-
+   
    // initialize variables
    int numCars, scenario, numMoves;
-   double totalT= 0;
-
+   
    // initialize game board
-   Board gameBoard;
-
+   
    // get input number of cars for first scenario (prime loop)
    cin >> numCars;
 
@@ -62,6 +59,10 @@ int main()
    // increment scenario number
    for(scenario = 1; numCars > 0 && numCars <= MAX_CARS; scenario++)
    {
+      Timer t;
+      Board gameBoard;
+      double totalT= 0;
+
       // load cars into board
       gameBoard.loadCars(numCars);
       t.start();
@@ -72,9 +73,10 @@ int main()
       // print results
       cout << "Scenario " << scenario << " requires " << numMoves << " moves" << endl;
       // get input number of cars for next scenario
+      cout << totalT << std::endl;
       cin >> numCars;
    }
-   cout << totalT << std::endl;
+   
 
    // end program
    return 0;

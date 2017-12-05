@@ -46,7 +46,6 @@ private:
 		int col;
 		char direction;
 		int length;
-		char name;
 	};
 
 	static std::map<std::string, int> history;
