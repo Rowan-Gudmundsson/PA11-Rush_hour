@@ -12,7 +12,7 @@ efficiently.
 @details Game boards of any difficulty can be solved, as long as they have less
 than 18 cars. Game boards that use a truck as the main car can also be solved.
 @date Sunday, December 3rd, 2017
-*/
+**/
 
 /**
 @mainpage
@@ -20,13 +20,13 @@ This program will solve the game Rush Hour. It calculates
 the smallest number of moves required to solve input traffic configurations.
 A branch and bound method is implemented to calculate complex solutions
 efficiently.
-*/
+**/
 
 /*
 Author self-assessment statement:
 This program is complete and working according to spcecifications,
 according to the best of our knowledge.
-*/
+**/
 
 //  Header Files  //////////////////////////////////////////////////////////////
 #include <iostream>
@@ -46,15 +46,12 @@ int solveIt(Board &gameBoard);
 //  Main Function  /////////////////////////////////////////////////////////////
 int main()
 {
-   Timer t;
-
+   
    // initialize variables
    int numCars, scenario, numMoves;
-   double totalT= 0;
-
+   
    // initialize game board
-   Board gameBoard;
-
+   
    // get input number of cars for first scenario (prime loop)
    cin >> numCars;
 
@@ -62,6 +59,10 @@ int main()
    // increment scenario number
    for(scenario = 1; numCars > 0 && numCars <= MAX_CARS; scenario++)
    {
+      Timer t;
+      Board gameBoard;
+      double totalT= 0;
+
       // load cars into board
       gameBoard.loadCars(numCars);
       t.start();
@@ -72,9 +73,10 @@ int main()
       // print results
       cout << "Scenario " << scenario << " requires " << numMoves << " moves" << endl;
       // get input number of cars for next scenario
+      //cout << totalT << std::endl; // didn't actually need for this project
       cin >> numCars;
    }
-   cout << totalT << std::endl;
+   
 
    // end program
    return 0;

@@ -2,9 +2,9 @@
 /**
 @file rush.h
 @author Ashlee Ladouceur
-@author Rowan Rundmunsson
+@author Rowan Gudmundsson
 @author Spencer Rohlfing
-*/
+**/
 #ifndef RUSH_H
 #define RUSH_H
 
@@ -19,42 +19,44 @@ const int MAX_CARS = 18;
 
 #define VH_BIT 1 << 7
 
-class Board{
-public:
-	Board(int defaultMax = MAX_CARS);
-	Board(const Board&);
-	~Board();
+class Board {
 
-	Board& operator = (const Board&);
+	public:
 
-	void clear();
-	void loadCars(int);
-	int solveIt();
-	bool moveForward(int);
-	bool moveBack(int);
-	bool isMove(int row, int col);
-	bool solved() const;
-	std::string toString() const;
+		Board(int defaultMax = MAX_CARS);
+		Board(const Board&);
 
-	friend std::ostream& operator << (std::ostream&, const Board&);
+		Board& operator = (const Board&);
+
+		void clear();
+		void loadCars(int);
+		int solveIt();
+		bool moveForward(int);
+		bool moveBack(int);
+		bool isMove(int row, int col);
+		bool solved() const;
+		std::string toString() const;
+
+		friend std::ostream& operator << (std::ostream&, const Board&);
+
+		~Board();
 	
-private:
+	private:
 
-	struct Vehicle {
+		struct Vehicle {
 
-		int row;
-		int col;
-		char direction;
-		int length;
-		char name;
-	};
+			int row;
+			int col;
+			char direction;
+			int length;
+		};
 
-	static std::map<std::string, int> history;
+		static std::map<std::string, int> history;
 
-	std::queue<Board> todo;
+		std::queue<Board> todo;
 
-	Vehicle* boards;
-	int totalCars;
+		Vehicle* boards;
+		int totalCars;
 };
 
 #endif //RUSH_H
