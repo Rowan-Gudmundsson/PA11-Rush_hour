@@ -1,6 +1,6 @@
 /**
 @file Rush.cpp
-*/
+**/
 
 //  Header Files  //////////////////////////////////////////////////////////////
 #include "Rush.h"
@@ -13,7 +13,7 @@ std::map<std::string, int> Board::history;
  * Parameterized constructor
  * will setup a default board. It will set the total cars to 0.
  * @param defaultMax the number of cars
- */
+ **/
 Board::Board(int defaultMax) : totalCars(0) {
 
 	boards = new Vehicle[defaultMax];
@@ -24,7 +24,7 @@ Board::Board(int defaultMax) : totalCars(0) {
  * will create an exact copy of a board. It will call the assignment operator
  * function.
  * @param other reference to the board we will copy from
- */
+ **/
 Board::Board(const Board& other) : boards(NULL) {
 
 	(*this) = other;
@@ -33,7 +33,7 @@ Board::Board(const Board& other) : boards(NULL) {
 /**
  * Destructor
  * will delete all allocated memory of the board. Set boards to NULL.
- */
+ **/
 Board::~Board() {
 
 	delete [] boards;
@@ -48,7 +48,7 @@ Board::~Board() {
  * element in the array to the other board's array. 
  * @param other reference to the board we will copy from
  * @return the reference to the board.
- */
+ **/
 Board& Board::operator = (const Board& other) {
 
 	if(boards != NULL)	
@@ -72,7 +72,7 @@ Board& Board::operator = (const Board& other) {
  * each car, the direction the car is facing, and the postition(row,col) 
  * that the car is located in.
  * @param numCars number of cars
- */
+ **/
 void Board::loadCars(int numCars){
 
 	if(boards != NULL)
@@ -100,7 +100,7 @@ void Board::loadCars(int numCars){
  * another car. Then it will increase it's movement position by 1.
  * @param  car car number
  * @return true or false.
- */
+ **/
 bool Board::moveForward(int car) {
 
 	//Board newBoard = (*this);
@@ -139,10 +139,8 @@ bool Board::moveForward(int car) {
  * another car. Then it will decrease it's movement position by 1.
  * @param  car car number
  * @return true or false.
- */
+ **/
 bool Board::moveBack(int car){
-
-	//Board newBoard = (*this);
 
 	if(boards[car].direction == 'H'){
 
@@ -178,17 +176,24 @@ bool Board::moveBack(int car){
  * @param  row x position
  * @param  col y position
  * @return true or false
- */
+ **/
 bool Board::isMove(int row, int col){
 
-	for(int i = 0; i < totalCars; i++){
-		for(int j = 0; j < boards[i].length; j++){
+	for(int i = 0; i < totalCars; i++) {
+
+		for(int j = 0; j < boards[i].length; j++) {
+
 			if(boards[i].direction == 'H'){
-				if(boards[i].row == row && (boards[i].col+j) == col){
+
+				if(boards[i].row == row && (boards[i].col+j) == col) {
+
 					return false;
 				}
-			}else{
-				if((boards[i].row+j) == row && boards[i].col == col){
+			}
+			else {
+
+				if((boards[i].row+j) == row && boards[i].col == col) {
+
 					return false;
 				}
 			}
@@ -208,7 +213,7 @@ bool Board::isMove(int row, int col){
  * or backwards as long as it hasn't been in the map yet. If not, then insert
  * that board into the queue to do tests later on.
  * @return number of moves or -1 if didn't solve.
- */
+ **/
 int Board::solveIt()
 {
    // initialize function
@@ -285,16 +290,18 @@ int Board::solveIt()
  * Solved
  * checks if the first car is at the edge of the board.
  * @return true or false
- */
-bool Board::solved() const{
+ **/
+bool Board::solved() const {
+
 	return (boards[0].col + boards[0].length) == 6;
 }
 
 /**
  * Clear
  * resets the total number of cars.
- */
-void Board::clear(){
+ **/
+void Board::clear() {
+
 	totalCars = 0;
 }
 
@@ -337,7 +344,7 @@ std::string Board::toString() const {
  * << operator
  * is used to print out the current information of the board. This was
  * used for debugging and is not used in the final product.
- */
+ **/
 std::ostream& operator << (std::ostream& strm, const Board& board) {
 
 	//strm << board.totalCars << std::endl;
@@ -346,11 +353,13 @@ std::ostream& operator << (std::ostream& strm, const Board& board) {
 
 		strm << "(" << board.boards[i].row << ", " << board.boards[i].col << ") ";
 	}
-	strm << std::endl;
+
 	if(board.solved())
 		strm << "Solved.";
 	else
 		strm << "Not Solved.";
+
+	strm << std::endl;
 
 	return strm;
 }
