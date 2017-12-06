@@ -5,7 +5,7 @@
 //  Header Files  //////////////////////////////////////////////////////////////
 #include "Rush.h"
 
-
+/// since history is a static member variable, must be instatiated before being used
 std::map<std::string, int> Board::history;
 
 
@@ -25,9 +25,8 @@ Board::Board(int defaultMax) : totalCars(0) {
  * function.
  * @param other reference to the board we will copy from
  */
-Board::Board(const Board& other) {
+Board::Board(const Board& other) : boards(NULL) {
 
-	boards = NULL;
 	(*this) = other;
 }
 
@@ -35,7 +34,8 @@ Board::Board(const Board& other) {
  * Destructor
  * will delete all allocated memory of the board. Set boards to NULL.
  */
-Board::~Board(){
+Board::~Board() {
+
 	delete [] boards;
 	boards = NULL;
 }
@@ -83,10 +83,11 @@ void Board::loadCars(int numCars){
 	totalCars = numCars;
 
 	for(int i = 0; i < numCars; i++) {
+
 		std::cin >> boards[i].length
-			>> boards[i].direction
-			>> boards[i].row
-			>> boards[i].col;
+				 >> boards[i].direction
+				 >> boards[i].row
+				 >> boards[i].col;
 	}
 }
 
@@ -100,7 +101,7 @@ void Board::loadCars(int numCars){
  * @param  car car number
  * @return true or false.
  */
-bool Board::moveForward(int car){
+bool Board::moveForward(int car) {
 
 	//Board newBoard = (*this);
 
@@ -297,6 +298,19 @@ void Board::clear(){
 	totalCars = 0;
 }
 
+
+/**
+ * \brief Converts the board to a string of characters where each character is an encoding of a vehicle
+ *
+ * encodes a vehicle to one byte of information. First bit is whether the vehicle is vertical or
+ * horizontal, next 3 bits are the row, next 3 are the column and the last bit is 0 if the car
+ * is of length 2, 1 if the car is of length 3
+ *
+ * @param None
+ * @return The board as a string
+ * @pre board must have Vehicles in them and each vehicle must have all appropriate data
+ * @post used to uniquely identify a board, used for mapping and remembering the board
+ **/
 std::string Board::toString() const {
 
 	std::string boardyString;
